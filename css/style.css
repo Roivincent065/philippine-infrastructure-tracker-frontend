@@ -568,8 +568,12 @@ button { font-family: inherit; }
 
   /* Map */
   .map-panel {
-    order: 2;
+    order: 1;
   }
+
+  .list-panel {
+  order: 2;
+}
 
   #map {
     height: 500px;
