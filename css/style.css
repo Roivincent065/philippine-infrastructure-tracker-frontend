@@ -487,3 +487,447 @@ button { font-family: inherit; }
   color: var(--color-ink-soft);
   font-family: var(--font-mono);
 }
+
+/* =========================================================
+   MOBILE RESPONSIVE DESIGN
+   ========================================================= */
+
+/* ---------- Tablets ---------- */
+
+@media (max-width: 900px) {
+
+  /* Header */
+  .site-header {
+    padding: 16px 18px;
+  }
+
+  .site-header__title {
+    font-size: 20px;
+  }
+
+  .site-header__subtitle {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  /* Stats */
+  .stats-strip {
+    margin: 0 18px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stat-cell {
+    padding: 12px;
+  }
+
+  .stat-cell__value {
+    font-size: 21px;
+  }
+
+  .stat-cell__label {
+    font-size: 10px;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    margin-top: 14px;
+    padding: 0 18px;
+    gap: 8px;
+  }
+
+  .search-input {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .filter-select {
+    flex: 1 1 calc(33.333% - 8px);
+    min-width: 0;
+  }
+
+  .filter-clear {
+    flex: 1 1 100%;
+  }
+
+  /* Result count */
+  .result-count {
+    padding: 0 18px;
+  }
+
+  /* Main content */
+  .main-split {
+    margin-top: 12px;
+    padding: 0 18px;
+    grid-template-columns: 1fr;
+  }
+
+  /* List */
+  .project-list {
+    max-height: 550px;
+  }
+
+  /* Map */
+  .map-panel {
+    order: 2;
+  }
+
+  #map {
+    height: 500px;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 0 18px;
+  }
+}
+
+
+/* ---------- Mobile phones ---------- */
+
+@media (max-width: 600px) {
+
+  html,
+  body {
+    font-size: 14px;
+  }
+
+  /* ---------- Header ---------- */
+
+  .site-header {
+    padding: 14px 14px 16px;
+    border-bottom-width: 4px;
+  }
+
+  .site-header__inner {
+    display: block;
+  }
+
+  .site-header__title {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .site-header__subtitle {
+    margin-top: 6px;
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+  }
+
+
+  /* ---------- Stats ---------- */
+
+  .stats-strip {
+    margin: 0;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    border-left: none;
+    border-right: none;
+  }
+
+  .stat-cell {
+    padding: 11px 12px;
+  }
+
+  .stat-cell__value {
+    font-size: 20px;
+  }
+
+  .stat-cell__label {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+
+  /* ---------- Toolbar ---------- */
+
+  .toolbar {
+    margin-top: 12px;
+    padding: 0 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .search-input {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+
+  .filter-select {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 9px;
+    font-size: 12px;
+  }
+
+  .filter-clear {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+
+  /* ---------- Result count ---------- */
+
+  .result-count {
+    margin-top: 9px;
+    padding: 0 12px;
+    font-size: 10px;
+  }
+
+
+  /* ---------- Main layout ---------- */
+
+  .main-split {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 10px auto 25px;
+    padding: 0 12px;
+  }
+
+  .list-panel,
+  .map-panel {
+    width: 100%;
+  }
+
+
+  /* ---------- Panel headings ---------- */
+
+  .panel-heading {
+    padding: 9px 12px;
+    font-size: 10px;
+  }
+
+
+  /* ---------- Project list ---------- */
+
+  .project-list {
+    max-height: 500px;
+  }
+
+  .project-card {
+    padding: 13px 12px;
+  }
+
+  .project-card__top {
+    gap: 7px;
+  }
+
+  .project-card__title {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .status-tag {
+    font-size: 9px;
+    padding: 3px 5px;
+  }
+
+  .project-card__meta {
+    font-size: 10px;
+    gap: 3px 9px;
+    line-height: 1.5;
+  }
+
+
+  /* ---------- Pagination ---------- */
+
+  .pagination {
+    padding: 9px 10px;
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pagination__buttons {
+    gap: 5px;
+  }
+
+  .pagination button {
+    min-height: 34px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+
+  /* ---------- Map ---------- */
+
+  #map {
+    height: 400px;
+  }
+
+
+  /* ---------- Leaflet controls ---------- */
+
+  .leaflet-control-zoom a {
+    width: 34px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+    font-size: 18px !important;
+  }
+
+  .leaflet-control-attribution {
+    font-size: 8px;
+  }
+
+  .leaflet-popup-content {
+    font-size: 12px;
+    max-width: 240px;
+  }
+
+
+  /* ---------- Signboard / Modal ---------- */
+
+  .signboard-overlay {
+    padding: 10px;
+    align-items: center;
+  }
+
+  .signboard {
+    width: 100%;
+    max-height: 92vh;
+  }
+
+  .signboard__band {
+    padding: 14px 15px;
+    padding-right: 45px;
+  }
+
+  .signboard__band-label {
+    font-size: 9px;
+  }
+
+  .signboard__title {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .signboard__close {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .signboard__stamp {
+    position: static;
+    display: inline-block;
+    margin-top: 10px;
+    transform: rotate(-5deg);
+    font-size: 10px;
+  }
+
+  .signboard__body {
+    padding: 14px 15px 18px;
+  }
+
+  .signboard__row {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    padding: 8px 0;
+    font-size: 12px;
+  }
+
+  .signboard__row-label {
+    font-size: 9px;
+  }
+
+  .signboard__row-value {
+    overflow-wrap: anywhere;
+  }
+
+  .signboard__coords-note {
+    font-size: 10px;
+  }
+
+
+  /* ---------- Loading / empty state ---------- */
+
+  .state-message {
+    padding: 30px 15px;
+    font-size: 12px;
+  }
+
+  .state-message strong {
+    font-size: 13px;
+  }
+
+
+  /* ---------- Footer ---------- */
+
+  .site-footer {
+    margin-bottom: 20px;
+    padding: 0 12px;
+    font-size: 9px;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+
+
+/* ---------- Very small phones ---------- */
+
+@media (max-width: 380px) {
+
+  .site-header__title {
+    font-size: 16px;
+  }
+
+  .site-header__subtitle {
+    font-size: 8px;
+  }
+
+  .stats-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-cell {
+    padding: 9px 10px;
+  }
+
+  .stat-cell__value {
+    font-size: 18px;
+  }
+
+  .stat-cell__label {
+    font-size: 8px;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .search-input,
+  .filter-select,
+  .filter-clear {
+    grid-column: 1;
+  }
+
+  #map {
+    height: 350px;
+  }
+
+  .project-card__top {
+    display: block;
+  }
+
+  .status-tag {
+    display: inline-block;
+    margin-top: 5px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .pagination__buttons {
+    justify-content: center;
+  }
+}
