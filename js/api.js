@@ -1,6 +1,10 @@
 
 const API = (() => {
-  const BASE = '/api/projects';
+  const API_BASE_URL =
+    "https://philippine-infrastructure-tracker-backend.onrender.com";
+
+  const BASE =
+      `${API_BASE_URL}/api/projects`;
 
   async function request(path, params = {}) {
     const url = new URL(BASE + path, window.location.origin);
