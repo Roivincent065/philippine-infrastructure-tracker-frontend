@@ -56,7 +56,16 @@
 
   <main class="main-split">
     <section class="map-panel" aria-label="Project map">
-      <div class="panel-heading">Map</div>
+      <div class="panel-heading panel-heading--map">
+        <span>Map</span>
+        <label class="map-mode">
+          <span>Display</span>
+          <select id="map-mode" aria-label="Choose map display mode">
+            <option value="status">Status colors</option>
+            <option value="budget">Budget size</option>
+          </select>
+        </label>
+      </div>
       <div id="map"></div>
     </section>
     

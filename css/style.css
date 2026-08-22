@@ -252,6 +252,32 @@ button { font-family: inherit; }
   border-bottom: 1px solid var(--color-line);
 }
 
+.panel-heading--map {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.map-mode {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.map-mode select {
+  border: 1px solid var(--color-line-strong);
+  border-radius: 2px;
+  background: var(--color-paper-raised);
+  color: var(--color-ink);
+  padding: 3px 6px;
+  font: inherit;
+}
+
 /* ---------- Project list ---------- */
 
 .project-list {

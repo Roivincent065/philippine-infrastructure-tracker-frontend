@@ -2,6 +2,9 @@
 const MapModule = (() => {
   let map = null;
   let markers = {}; // contract_id -> Leaflet marker
+  let currentLocations = [];
+  let displayMode = 'status';
+  let markerClickHandler = null;
 
   function init() {
     // Centered roughly on Surigao del Sur province
@@ -22,17 +25,25 @@ const MapModule = (() => {
 
   function setMarkers(locations, { onMarkerClick } = {}) {
     clearMarkers();
+    currentLocations = locations;
+    markerClickHandler = onMarkerClick;
 
     locations.forEach((loc) => {
+      addMarker(loc, locations);
+    });
+  }
+
+  function addMarker(loc, allLocations) {
       const lat = Number(loc.latitude);
       const lng = Number(loc.longitude);
       if (Number.isNaN(lat) || Number.isNaN(lng)) return;
 
+      const color = displayMode === 'status' ? markerColor(loc.status) : '#2F6B6E';
       const marker = L.circleMarker([lat, lng], {
-        radius: 7,
+        radius: displayMode === 'budget' ? budgetRadius(loc.budget, allLocations) : 7,
         weight: 2,
-        color: markerColor(loc.status),
-        fillColor: markerColor(loc.status),
+        color,
+        fillColor: color,
         fillOpacity: 0.55,
       }).addTo(map);
 
@@ -52,15 +63,36 @@ const MapModule = (() => {
         if (link) {
           link.addEventListener('click', (e) => {
             e.preventDefault();
-            onMarkerClick && onMarkerClick(loc.contract_id);
+            markerClickHandler && markerClickHandler(loc.contract_id);
           });
         }
       });
 
-      marker.on('click', () => onMarkerClick && onMarkerClick(loc.contract_id));
+      marker.on('click', () => markerClickHandler && markerClickHandler(loc.contract_id));
 
       markers[loc.contract_id] = marker;
-    });
+  }
+
+  function setDisplayMode(mode) {
+    displayMode = mode === 'budget' ? 'budget' : 'status';
+    clearMarkers();
+    currentLocations.forEach((loc) => addMarker(loc, currentLocations));
+  }
+
+  function budgetRadius(budget, allLocations) {
+    const values = allLocations
+      .map((loc) => Number(loc.budget))
+      .filter((value) => Number.isFinite(value) && value > 0);
+    const amount = Number(budget);
+    if (!Number.isFinite(amount) || amount <= 0 || values.length < 2) return 7;
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    if (min === max) return 10;
+
+    const normalized = (Math.sqrt(amount) - Math.sqrt(min))
+      / (Math.sqrt(max) - Math.sqrt(min));
+    return 6 + normalized * 14;
   }
 
   function focusMarker(contractId) {
@@ -88,5 +120,5 @@ const MapModule = (() => {
     return String(str).replace(/"/g, '\\"');
   }
 
-  return { init, setMarkers, clearMarkers, focusMarker };
+  return { init, setMarkers, setDisplayMode, clearMarkers, focusMarker };
 })();

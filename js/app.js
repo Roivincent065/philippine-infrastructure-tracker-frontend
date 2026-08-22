@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     projectList: document.getElementById('project-list'),
     pagination: document.getElementById('pagination'),
     signboardRoot: document.getElementById('signboard-root'),
+    mapMode: document.getElementById('map-mode'),
   };
 
   let activeContractId = null;
@@ -204,5 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
     el.sortSelect.value = 'startDate';
 
     refresh();
+  });
+
+  el.mapMode.addEventListener('change', (e) => {
+    MapModule.setDisplayMode(e.target.value);
   });
 });
