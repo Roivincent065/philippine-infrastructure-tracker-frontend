@@ -38,7 +38,11 @@ const MapModule = (() => {
       const lng = Number(loc.longitude);
       if (Number.isNaN(lat) || Number.isNaN(lng)) return;
 
-      const color = displayMode === 'status' ? markerColor(loc.status) : '#2F6B6E';
+      const color = displayMode === 'status'
+        ? markerColor(loc.status)
+        : displayMode === 'category'
+          ? categoryColor(loc.component_categories)
+          : '#2F6B6E';
       const marker = L.circleMarker([lat, lng], {
         radius: displayMode === 'budget' ? budgetRadius(loc.budget, allLocations) : 7,
         weight: 2,
@@ -74,7 +78,7 @@ const MapModule = (() => {
   }
 
   function setDisplayMode(mode) {
-    displayMode = mode === 'budget' ? 'budget' : 'status';
+    displayMode = ['status', 'category', 'budget'].includes(mode) ? mode : 'status';
     clearMarkers();
     currentLocations.forEach((loc) => addMarker(loc, currentLocations));
   }
@@ -109,6 +113,19 @@ const MapModule = (() => {
       case 'Terminated': return '#A63A3A';
       default: return '#5A6472';
     }
+  }
+
+  function categoryColor(category) {
+    const palette = [
+      '#2F6B6E', '#7A5C3E', '#507A55', '#A04B3D',
+      '#6B5B95', '#B06B35', '#3D6B8A', '#7A6A2F',
+    ];
+    const value = String(category || 'Uncategorized');
+    let hash = 0;
+    for (let index = 0; index < value.length; index += 1) {
+      hash = (hash * 31 + value.charCodeAt(index)) | 0;
+    }
+    return palette[Math.abs(hash) % palette.length];
   }
 
   function escapeHtml(str) {
