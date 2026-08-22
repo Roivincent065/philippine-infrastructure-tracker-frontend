@@ -1,0 +1,489 @@
+/* ==========================================================================
+   Philippine Infrastructure Project Tracker — Design System
+   Visual language: DPWH project signboards / engineering site documents.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --color-paper: #EDEAE3;
+  --color-paper-raised: #F7F5F0;
+  --color-ink: #1B2430;
+  --color-ink-soft: #5A6472;
+  --color-line: #C7C0B0;
+  --color-line-strong: #A69C87;
+
+  --color-signal: #D64933;
+  --color-signal-dark: #A82E1B;
+  --color-survey: #2F6B6E;
+  --color-survey-dark: #1F4B4D;
+
+  --color-completed: #4B7247;
+  --color-completed-bg: #E4EBE0;
+  --color-ongoing: #C98A2E;
+  --color-ongoing-bg: #F5E9D3;
+  --color-planned: #5A6472;
+  --color-planned-bg: #E4E2DC;
+  --color-terminated: #A63A3A;
+  --color-terminated-bg: #F1DEDD;
+
+  --font-display: 'Archivo', sans-serif;
+  --font-body: 'Public Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --radius: 3px;
+  --shadow-card: 0 1px 2px rgba(27, 36, 48, 0.08), 0 1px 0 rgba(27, 36, 48, 0.04);
+  --shadow-raised: 0 4px 16px rgba(27, 36, 48, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Subtle engineering-grid texture on the page background */
+body {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+  opacity: 1;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--color-paper);
+  opacity: 0.94;
+  z-index: -1;
+  pointer-events: none;
+}
+
+a { color: var(--color-survey); }
+
+button { font-family: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+.mono { font-family: var(--font-mono); }
+
+/* ---------- Header / signboard band ---------- */
+
+.site-header {
+  background: var(--color-ink);
+  color: var(--color-paper-raised);
+  padding: 18px 24px;
+  border-bottom: 6px solid var(--color-signal);
+}
+
+.site-header__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.site-header__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.site-header__title span {
+  color: var(--color-signal);
+}
+
+.site-header__subtitle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #A9B0BA;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Stats strip ---------- */
+
+.stats-strip {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: var(--color-line-strong);
+  border: 1px solid var(--color-line-strong);
+}
+
+.stat-cell {
+  background: var(--color-paper-raised);
+  padding: 14px 16px;
+}
+
+.stat-cell__value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--color-ink);
+  display: block;
+  line-height: 1.1;
+}
+
+.stat-cell--signal .stat-cell__value { color: var(--color-signal-dark); }
+
+.stat-cell__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+  margin-top: 4px;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .stats-strip { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Toolbar: search + filters ---------- */
+
+.toolbar {
+  max-width: 1400px;
+  margin: 16px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1 1 260px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  background: var(--color-paper-raised);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink);
+}
+
+.search-input::placeholder { color: var(--color-ink-soft); }
+
+.filter-select {
+  padding: 9px 12px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  background: var(--color-paper-raised);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-ink);
+  min-width: 140px;
+}
+
+.filter-clear {
+  padding: 9px 14px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-ink-soft);
+  font-size: 13px;
+  cursor: pointer;
+}
+.filter-clear:hover { border-color: var(--color-signal); color: var(--color-signal-dark); }
+
+.result-count {
+  max-width: 1400px;
+  margin: 10px auto 0;
+  padding: 0 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+/* ---------- Main split layout ---------- */
+
+.main-split {
+  max-width: 1400px;
+  margin: 12px auto 40px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-split { grid-template-columns: 1fr; }
+}
+
+.list-panel, .map-panel {
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+}
+
+.panel-heading {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-soft);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* ---------- Project list ---------- */
+
+.project-list {
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.project-card {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-line);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.project-card:hover { background: #F0ECE3; }
+.project-card.is-active { background: #EAE4D6; box-shadow: inset 3px 0 0 var(--color-signal); }
+.project-card:last-child { border-bottom: none; }
+
+.project-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.project-card__title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.35;
+  margin: 0 0 6px;
+}
+
+.status-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.status-tag--completed { background: var(--color-completed-bg); color: var(--color-completed); }
+.status-tag--ongoing   { background: var(--color-ongoing-bg); color: var(--color-ongoing); }
+.status-tag--planned, .status-tag--for-procurement { background: var(--color-planned-bg); color: var(--color-planned); }
+.status-tag--terminated { background: var(--color-terminated-bg); color: var(--color-terminated); }
+
+.project-card__meta {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.project-card__meta strong { color: var(--color-ink); font-weight: 600; }
+
+/* ---------- Pagination ---------- */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.pagination__buttons { display: flex; gap: 6px; }
+
+.pagination button {
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-paper-raised);
+  border-radius: 2px;
+  padding: 5px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+.pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
+.pagination button:not(:disabled):hover { border-color: var(--color-signal); }
+
+/* ---------- Map ---------- */
+
+#map {
+  height: 640px;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+}
+
+/* ---------- Empty / loading / error states ---------- */
+
+.state-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 13px;
+}
+.state-message strong { display: block; color: var(--color-ink); font-size: 14px; margin-bottom: 4px; }
+
+/* ---------- Signboard detail panel (signature element) ---------- */
+
+.signboard-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 36, 48, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.signboard {
+  background: var(--color-paper-raised);
+  width: min(560px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-raised);
+  position: relative;
+}
+
+.signboard__band {
+  background: var(--color-signal);
+  color: #fff;
+  padding: 16px 20px;
+  position: relative;
+}
+
+.signboard__band-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+.signboard__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 4px 0 0;
+  text-transform: uppercase;
+}
+
+.signboard__close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.signboard__close:hover { background: rgba(255,255,255,0.3); }
+
+.signboard__stamp {
+  position: absolute;
+  top: 60px;
+  right: 24px;
+  border: 3px solid currentColor;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transform: rotate(-8deg);
+  opacity: 0.9;
+  background: rgba(255,255,255,0.08);
+}
+.signboard__stamp--completed { color: #C9E4C5; }
+.signboard__stamp--ongoing { color: #F5D89A; }
+.signboard__stamp--planned, .signboard__stamp--for-procurement { color: #E3E6EA; }
+.signboard__stamp--terminated { color: #F0B8B8; }
+
+.signboard__body { padding: 18px 20px 22px; }
+
+.signboard__row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 4px 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--color-line);
+  font-size: 13px;
+}
+.signboard__row:last-child { border-bottom: none; }
+
+.signboard__row-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-soft);
+  padding-top: 1px;
+}
+
+.signboard__row-value { font-weight: 500; }
+.signboard__row-value.mono { font-size: 13px; }
+
+.signboard__coords-note {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--color-ink-soft);
+  font-style: italic;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  padding: 0 24px;
+  font-size: 11.5px;
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+}

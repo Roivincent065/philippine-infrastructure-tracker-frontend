@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philippine Infrastructure Project Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div>
+        <h1 class="site-header__title">Infrastructure <span>Tracker</span></h1>
+        <div class="site-header__subtitle">Surigao del Sur &middot; Region XIII &middot; Government Transparency Portal</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="stats-strip" class="stats-strip" aria-label="Summary statistics">
+    <!-- populated by app.js -->
+  </section>
+
+  <div class="toolbar">
+    <input
+      type="text"
+      id="search-input"
+      class="search-input"
+      placeholder="Search by project, contractor, location..."
+      aria-label="Search projects"
+    >
+    <select id="filter-status" class="filter-select" aria-label="Filter by status">
+      <option value="">All Statuses</option>
+    </select>
+    <select id="filter-category" class="filter-select" aria-label="Filter by project type">
+      <option value="">All Types</option>
+    </select>
+    <select id="filter-district" class="filter-select" aria-label="Filter by district office">
+      <option value="">All Districts</option>
+    </select>
+    <select id="filter-year" class="filter-select" aria-label="Filter by year">
+      <option value="">All Years</option>
+    </select>
+    <select id="sort-select" class="filter-select" aria-label="Sort by">
+      <option value="startDate">Sort: Start Date</option>
+      <option value="budget">Sort: Budget</option>
+      <option value="completionDate">Sort: Completion Date</option>
+      <option value="description">Sort: Name</option>
+      <option value="status">Sort: Status</option>
+    </select>
+    <button id="filter-clear" class="filter-clear" type="button">Clear filters</button>
+  </div>
+
+  <div id="result-count" class="result-count"></div>
+
+  <main class="main-split">
+    <section class="list-panel" aria-label="Project list">
+      <div class="panel-heading">Project List</div>
+      <div id="project-list" class="project-list">
+        <div class="state-message"><strong>Loading&hellip;</strong>Fetching projects from the tracker API.</div>
+      </div>
+      <div id="pagination" class="pagination"></div>
+    </section>
+
+    <section class="map-panel" aria-label="Project map">
+      <div class="panel-heading">Map</div>
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <div id="signboard-root"></div>
+
+  <footer class="site-footer">
+    Data sourced from DPWH infrastructure project records &middot; Surigao del Sur 1st &amp; 2nd District Engineering Offices
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
