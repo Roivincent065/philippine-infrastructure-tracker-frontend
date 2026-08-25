@@ -103,13 +103,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     el.budgetMin.value = min;
     el.budgetMax.value = max;
+    el.budgetMin.style.zIndex = '2';
+    el.budgetMax.style.zIndex = '1';
     updateBudgetLabel();
 
     const updateRange = (changedInput) => {
       const otherInput = changedInput === el.budgetMin ? el.budgetMax : el.budgetMin;
-      if (Number(changedInput.value) > Number(otherInput.value)) {
-        otherInput.value = changedInput.value;
+      const changedValue = Number(changedInput.value);
+      const otherValue = Number(otherInput.value);
+      if (changedInput === el.budgetMin && changedValue > otherValue) {
+        changedInput.value = otherValue;
+      } else if (changedInput === el.budgetMax && changedValue < otherValue) {
+        changedInput.value = otherValue;
       }
+      el.budgetMin.style.zIndex = Number(el.budgetMin.value) >= Number(el.budgetMax.value) - 1000000 ? '3' : '2';
+      el.budgetMax.style.zIndex = Number(el.budgetMax.value) <= Number(el.budgetMin.value) + 1000000 ? '3' : '1';
       state.budgetMin = Number(el.budgetMin.value) > min ? el.budgetMin.value : '';
       state.budgetMax = Number(el.budgetMax.value) < max ? el.budgetMax.value : '';
       updateBudgetLabel();
