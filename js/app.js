@@ -87,9 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupBudgetFilter(minimum, maximum) {
-    const min = Math.floor(Number(minimum) / 1000000) * 1000000;
-    const max = Math.ceil(Number(maximum) / 1000000) * 1000000;
-    if (!Number.isFinite(min) || !Number.isFinite(max) || max <= min) return;
+    const suppliedMin = Number(minimum);
+    const suppliedMax = Number(maximum);
+    const min = Number.isFinite(suppliedMin) && suppliedMin >= 0
+      ? Math.floor(suppliedMin / 1000000) * 1000000
+      : 0;
+    const max = Number.isFinite(suppliedMax) && suppliedMax > min
+      ? Math.ceil(suppliedMax / 1000000) * 1000000
+      : 200000000;
 
     [el.budgetMin, el.budgetMax].forEach((input) => {
       input.min = min;

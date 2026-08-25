@@ -23,7 +23,7 @@ const API = (() => {
   }
 
   return {
-    // GET /api/projects?search=&status=&category=&district=&yearFrom=&yearTo=&sort=&order=&page=&limit=
+    // GET /api/projects?search=&status=&category=&district=&yearFrom=&yearTo=&budgetMin=&budgetMax=&sort=&order=&page=&limit=
     getProjects(params) {
       return request('', params);
     },
