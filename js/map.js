@@ -84,19 +84,19 @@ const MapModule = (() => {
   }
 
   function budgetRadius(budget, allLocations) {
-    const values = allLocations
-      .map((loc) => Number(loc.budget))
-      .filter((value) => Number.isFinite(value) && value > 0);
     const amount = Number(budget);
-    if (!Number.isFinite(amount) || amount <= 0 || values.length < 2) return 7;
+    if (!Number.isFinite(amount) || amount <= 0) return 7;
 
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    if (min === max) return 10;
-
-    const normalized = (Math.sqrt(amount) - Math.sqrt(min))
-      / (Math.sqrt(max) - Math.sqrt(min));
-    return 6 + normalized * 14;
+    // Fixed anchors keep high-value projects prominent after filtering.
+    const lowerBound = Math.sqrt(1000000);
+    const upperBound = Math.sqrt(90000000);
+    const normalized = Math.min(
+      (Math.sqrt(Math.max(amount, 1000000)) - lowerBound) / (upperBound - lowerBound),
+      1
+    );
+    if (amount >= 90000000) return Math.min(20 + (Math.sqrt(amount) - upperBound) / 20, 24);
+    if (amount >= 50000000) return 14 + normalized * 6;
+    return 6 + normalized * 8;
   }
 
   function focusMarker(contractId) {

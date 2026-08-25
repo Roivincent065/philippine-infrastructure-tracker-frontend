@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     category: '',
     district: '',
     year: '',
+    budgetMin: '',
+    budgetMax: '',
     sort: 'startDate',
     order: 'desc',
     page: 1,
@@ -19,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     filterCategory: document.getElementById('filter-category'),
     filterDistrict: document.getElementById('filter-district'),
     filterYear: document.getElementById('filter-year'),
+    budgetMin: document.getElementById('budget-min'),
+    budgetMax: document.getElementById('budget-max'),
+    budgetRangeLabel: document.getElementById('budget-range-label'),
     sortSelect: document.getElementById('sort-select'),
     filterClear: document.getElementById('filter-clear'),
     resultCount: document.getElementById('result-count'),
@@ -75,9 +80,54 @@ document.addEventListener('DOMContentLoaded', () => {
       populateSelect(el.filterCategory, options.categories);
       populateSelect(el.filterDistrict, options.districts);
       populateSelect(el.filterYear, options.years, true);
+      setupBudgetFilter(options.budgetMin, options.budgetMax);
     } catch (err) {
       console.error('Failed to load filter options', err);
     }
+  }
+
+  function setupBudgetFilter(minimum, maximum) {
+    const min = Math.floor(Number(minimum) / 1000000) * 1000000;
+    const max = Math.ceil(Number(maximum) / 1000000) * 1000000;
+    if (!Number.isFinite(min) || !Number.isFinite(max) || max <= min) return;
+
+    [el.budgetMin, el.budgetMax].forEach((input) => {
+      input.min = min;
+      input.max = max;
+      input.step = 1000000;
+    });
+    el.budgetMin.value = min;
+    el.budgetMax.value = max;
+    updateBudgetLabel();
+
+    const updateRange = (changedInput) => {
+      const otherInput = changedInput === el.budgetMin ? el.budgetMax : el.budgetMin;
+      if (Number(changedInput.value) > Number(otherInput.value)) {
+        otherInput.value = changedInput.value;
+      }
+      state.budgetMin = Number(el.budgetMin.value) > min ? el.budgetMin.value : '';
+      state.budgetMax = Number(el.budgetMax.value) < max ? el.budgetMax.value : '';
+      updateBudgetLabel();
+    };
+
+    el.budgetMin.addEventListener('input', () => updateRange(el.budgetMin));
+    el.budgetMax.addEventListener('input', () => updateRange(el.budgetMax));
+    [el.budgetMin, el.budgetMax].forEach((input) => input.addEventListener('change', () => {
+      state.page = 1;
+      refresh();
+    }));
+  }
+
+  function updateBudgetLabel() {
+    const min = Number(el.budgetMin.value);
+    const max = Number(el.budgetMax.value);
+    const floor = Number(el.budgetMin.min);
+    const ceiling = Number(el.budgetMax.max);
+    if (min === floor && max === ceiling) {
+      el.budgetRangeLabel.textContent = 'All budgets';
+      return;
+    }
+    el.budgetRangeLabel.textContent = `${ProjectUI.formatCurrency(min)} – ${ProjectUI.formatCurrency(max)}`;
   }
 
   function populateSelect(selectEl, values, isYear = false) {
@@ -100,6 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
       district: state.district,
       yearFrom: state.year,
       yearTo: state.year,
+      budgetMin: state.budgetMin,
+      budgetMax: state.budgetMax,
       sort: state.sort,
       order: state.order,
       page: state.page,
@@ -194,6 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     state.category = '';
     state.district = '';
     state.year = '';
+    state.budgetMin = '';
+    state.budgetMax = '';
     state.sort = 'startDate';
     state.page = 1;
 
@@ -202,6 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
     el.filterCategory.value = '';
     el.filterDistrict.value = '';
     el.filterYear.value = '';
+    el.budgetMin.value = el.budgetMin.min;
+    el.budgetMax.value = el.budgetMax.max;
+    updateBudgetLabel();
     el.sortSelect.value = 'startDate';
 
     refresh();

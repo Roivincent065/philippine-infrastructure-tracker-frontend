@@ -200,6 +200,61 @@ button { font-family: inherit; }
   min-width: 140px;
 }
 
+.budget-filter {
+  flex: 1 1 250px;
+  min-width: 220px;
+  padding: 5px 12px 3px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  background: var(--color-paper-raised);
+}
+
+.budget-filter__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+}
+
+.budget-filter__header output { color: var(--color-ink); white-space: nowrap; }
+
+.budget-filter__track { position: relative; height: 24px; }
+.budget-filter input[type="range"] {
+  position: absolute;
+  inset: 3px 0 0;
+  width: 100%;
+  margin: 0;
+  pointer-events: none;
+  appearance: none;
+  background: transparent;
+}
+.budget-filter input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: var(--color-line); }
+.budget-filter input[type="range"]::-moz-range-track { height: 3px; background: var(--color-line); }
+.budget-filter input[type="range"]::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 2px solid var(--color-survey-dark);
+  border-radius: 50%;
+  background: var(--color-paper-raised);
+  pointer-events: auto;
+  appearance: none;
+  cursor: grab;
+}
+.budget-filter input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-survey-dark);
+  border-radius: 50%;
+  background: var(--color-paper-raised);
+  pointer-events: auto;
+  cursor: grab;
+}
+
 .filter-clear {
   padding: 9px 14px;
   border: 1px solid var(--color-line-strong);
@@ -697,6 +752,11 @@ button { font-family: inherit; }
     min-width: 0;
     padding: 10px 9px;
     font-size: 12px;
+  }
+
+  .budget-filter {
+    grid-column: 1 / -1;
+    min-width: 0;
   }
 
   .filter-clear {

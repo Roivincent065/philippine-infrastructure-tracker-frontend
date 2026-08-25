@@ -42,6 +42,16 @@
     <select id="filter-year" class="filter-select" aria-label="Filter by year">
       <option value="">All Years</option>
     </select>
+    <div class="budget-filter" aria-label="Filter by project budget">
+      <div class="budget-filter__header">
+        <span>Project cost</span>
+        <output id="budget-range-label">All budgets</output>
+      </div>
+      <div class="budget-filter__track">
+        <input id="budget-min" type="range" aria-label="Minimum project cost">
+        <input id="budget-max" type="range" aria-label="Maximum project cost">
+      </div>
+    </div>
     <select id="sort-select" class="filter-select" aria-label="Sort by">
       <option value="startDate">Sort: Start Date</option>
       <option value="budget">Sort: Budget</option>
@@ -63,7 +73,7 @@
           <select id="map-mode" aria-label="Choose map display mode">
             <option value="status">Status colors</option>
             <option value="category">Category colors</option>
-            <option value="budget">Budget size</option>
+            <option value="budget">Budget size (sqrt scale)</option>
           </select>
         </label>
       </div>
