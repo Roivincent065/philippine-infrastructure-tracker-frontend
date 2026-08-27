@@ -42,7 +42,7 @@ const MapModule = (() => {
         ? markerColor(loc.status)
         : displayMode === 'category'
           ? categoryColor(loc.component_categories)
-          : '#2F6B6E';
+          : budgetColor(loc.budget);
       const marker = L.circleMarker([lat, lng], {
         radius: displayMode === 'budget' ? budgetRadius(loc.budget, allLocations) : 7,
         weight: 2,
@@ -97,6 +97,15 @@ const MapModule = (() => {
     if (amount >= 90000000) return Math.min(20 + (Math.sqrt(amount) - upperBound) / 20, 24);
     if (amount >= 50000000) return 14 + normalized * 6;
     return 6 + normalized * 8;
+  }
+
+  function budgetColor(budget) {
+    const amount = Number(budget);
+    if (!Number.isFinite(amount) || amount <= 0) return '#5A6472';
+    if (amount > 100000000) return '#A63A3A';
+    if (amount >= 90000000) return '#E07A2F';
+    if (amount >= 50000000) return '#C98A2E';
+    return '#2F6B6E';
   }
 
   function focusMarker(contractId) {

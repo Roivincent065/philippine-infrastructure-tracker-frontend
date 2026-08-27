@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pagination: document.getElementById('pagination'),
     signboardRoot: document.getElementById('signboard-root'),
     mapMode: document.getElementById('map-mode'),
+    budgetLegend: document.getElementById('budget-legend'),
   };
 
   let activeContractId = null;
@@ -279,5 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   el.mapMode.addEventListener('change', (e) => {
     MapModule.setDisplayMode(e.target.value);
+    el.budgetLegend.hidden = e.target.value !== 'budget';
   });
 });

@@ -333,6 +333,42 @@ button { font-family: inherit; }
   font: inherit;
 }
 
+.budget-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  padding: 5px 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-ink-soft);
+}
+
+.budget-legend__title {
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.budget-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 3px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+
+.budget-swatch--low { background: #2F6B6E; }
+.budget-swatch--medium { background: #C98A2E; }
+.budget-swatch--high { background: #E07A2F; }
+.budget-swatch--very-high { background: #A63A3A; }
+
 /* ---------- Project list ---------- */
 
 .project-list {
