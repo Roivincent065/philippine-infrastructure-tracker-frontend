@@ -137,6 +137,44 @@ const MapModule = (() => {
     return palette[Math.abs(hash) % palette.length];
   }
 
+  function getLegendItems(mode, categories = []) {
+    const statusItems = [
+      { color: '#4B7247', label: 'Completed' },
+      { color: '#C98A2E', label: 'On-Going' },
+      { color: '#A63A3A', label: 'Terminated' },
+      { color: '#5A6472', label: 'Other' },
+    ];
+
+    const categoryPalette = [
+      '#2F6B6E', '#7A5C3E', '#507A55', '#A04B3D',
+      '#6B5B95', '#B06B35', '#3D6B8A', '#7A6A2F',
+    ];
+
+    const categoryItems = (categories || []).filter(Boolean).slice(0, 6).map((category, index) => ({
+      color: categoryPalette[index % categoryPalette.length],
+      label: category,
+    }));
+
+    if (categoryItems.length === 0) {
+      categoryItems.push(
+        { color: '#2F6B6E', label: 'Flood Control' },
+        { color: '#7A5C3E', label: 'Road' },
+        { color: '#507A55', label: 'Bridge' },
+      );
+    }
+
+    const budgetItems = [
+      { color: '#2F6B6E', label: 'Under ₱50M' },
+      { color: '#C98A2E', label: '₱50M–₱90M' },
+      { color: '#E07A2F', label: '₱90M–₱100M' },
+      { color: '#A63A3A', label: 'Above ₱100M' },
+    ];
+
+    if (mode === 'status') return statusItems;
+    if (mode === 'category') return categoryItems;
+    return budgetItems;
+  }
+
   function escapeHtml(str) {
     if (!str) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -146,5 +184,12 @@ const MapModule = (() => {
     return String(str).replace(/"/g, '\\"');
   }
 
-  return { init, setMarkers, setDisplayMode, clearMarkers, focusMarker };
+  return {
+    init,
+    setMarkers,
+    setDisplayMode,
+    clearMarkers,
+    focusMarker,
+    getLegendItems,
+  };
 })();

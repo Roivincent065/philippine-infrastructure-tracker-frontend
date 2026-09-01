@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     budgetMin: document.getElementById('budget-min'),
     budgetMax: document.getElementById('budget-max'),
     budgetRangeLabel: document.getElementById('budget-range-label'),
+    budgetScaleMin: document.getElementById('budget-scale-min'),
+    budgetScaleMax: document.getElementById('budget-scale-max'),
     sortSelect: document.getElementById('sort-select'),
     filterClear: document.getElementById('filter-clear'),
     resultCount: document.getElementById('result-count'),
@@ -81,10 +83,48 @@ document.addEventListener('DOMContentLoaded', () => {
       populateSelect(el.filterCategory, options.categories);
       populateSelect(el.filterDistrict, options.districts);
       populateSelect(el.filterYear, options.years, true);
+      renderMapLegend(el.mapMode.value, options.categories || []);
       setupBudgetFilter(options.budgetMin, options.budgetMax);
     } catch (err) {
       console.error('Failed to load filter options', err);
     }
+  }
+
+  function formatBudgetGuide(value) {
+    const amount = Number(value);
+    if (!Number.isFinite(amount)) return '—';
+    if (amount === 0) return '₱0';
+    if (amount >= 1000000000) {
+      const inBillion = amount / 1000000000;
+      return `₱${inBillion.toFixed(inBillion >= 10 ? 0 : 1).replace(/\.0$/, '')}B`;
+    }
+    if (amount >= 1000000) return `₱${Math.round(amount / 1000000)}M`;
+    if (amount >= 1000) return `₱${Math.round(amount / 1000)}K`;
+    return `₱${amount.toLocaleString('en-PH')}`;
+  }
+
+  function updateBudgetGuide() {
+    const min = Number(el.budgetMin.min);
+    const max = Number(el.budgetMax.max);
+    el.budgetScaleMin.textContent = `Min: ${formatBudgetGuide(min)}`;
+    el.budgetScaleMax.textContent = `Max: ${formatBudgetGuide(max)}`;
+  }
+
+  function renderMapLegend(mode, categories = []) {
+    const titles = {
+      status: 'Status colors',
+      category: 'Category colors',
+      budget: 'Budget colors',
+    };
+
+    const items = MapModule.getLegendItems(mode, categories);
+    el.budgetLegend.innerHTML = `
+      <span class="budget-legend__title">${titles[mode] || 'Legend'}</span>
+      ${items.map((item) => `
+        <span><i class="budget-swatch" style="background:${item.color};"></i>${String(item.label).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>
+      `).join('')}
+    `;
+    el.budgetLegend.setAttribute('aria-label', `${titles[mode] || 'Legend'} guide`);
   }
 
   function setupBudgetFilter(minimum, maximum) {
@@ -106,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.budgetMax.value = max;
     el.budgetMin.style.zIndex = '2';
     el.budgetMax.style.zIndex = '1';
+    updateBudgetGuide();
     updateBudgetLabel();
 
     const updateRange = (changedInput) => {
@@ -121,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.budgetMax.style.zIndex = Number(el.budgetMax.value) <= Number(el.budgetMin.value) + 1000000 ? '3' : '1';
       state.budgetMin = Number(el.budgetMin.value) > min ? el.budgetMin.value : '';
       state.budgetMax = Number(el.budgetMax.value) < max ? el.budgetMax.value : '';
+      updateBudgetGuide();
       updateBudgetLabel();
     };
 
@@ -272,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.filterYear.value = '';
     el.budgetMin.value = el.budgetMin.min;
     el.budgetMax.value = el.budgetMax.max;
+    updateBudgetGuide();
     updateBudgetLabel();
     el.sortSelect.value = 'startDate';
 
@@ -280,6 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   el.mapMode.addEventListener('change', (e) => {
     MapModule.setDisplayMode(e.target.value);
-    el.budgetLegend.hidden = e.target.value !== 'budget';
+    renderMapLegend(e.target.value, Array.isArray(el.filterCategory.options)
+      ? Array.from(el.filterCategory.options).map((option) => option.value).filter(Boolean)
+      : []);
   });
 });

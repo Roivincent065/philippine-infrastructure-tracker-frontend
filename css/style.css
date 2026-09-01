@@ -222,6 +222,17 @@ button { font-family: inherit; }
 
 .budget-filter__header output { color: var(--color-ink); white-space: nowrap; }
 
+.budget-filter__guide {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+}
+
 .budget-filter__track { position: relative; height: 24px; }
 .budget-filter input[type="range"] {
   position: absolute;
@@ -311,6 +322,7 @@ button { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
 }
 

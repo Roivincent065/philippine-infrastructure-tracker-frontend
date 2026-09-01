@@ -51,6 +51,10 @@
         <input id="budget-min" type="range" aria-label="Minimum project cost">
         <input id="budget-max" type="range" aria-label="Maximum project cost">
       </div>
+      <div class="budget-filter__guide" aria-live="polite">
+        <span id="budget-scale-min">Min: ₱0</span>
+        <span id="budget-scale-max">Max: ₱200M</span>
+      </div>
     </div>
     <select id="sort-select" class="filter-select" aria-label="Sort by">
       <option value="startDate">Sort: Start Date</option>
@@ -76,13 +80,7 @@
             <option value="budget">Budget size (sqrt scale)</option>
           </select>
         </label>
-        <div id="budget-legend" class="budget-legend" hidden aria-label="Budget size color guide">
-          <span class="budget-legend__title">Budget</span>
-          <span><i class="budget-swatch budget-swatch--low"></i>Under ₱50M</span>
-          <span><i class="budget-swatch budget-swatch--medium"></i>₱50M–₱90M</span>
-          <span><i class="budget-swatch budget-swatch--high"></i>₱90M–₱100M</span>
-          <span><i class="budget-swatch budget-swatch--very-high"></i>Above ₱100M</span>
-        </div>
+        <div id="budget-legend" class="budget-legend" aria-live="polite" aria-label="Map color guide"></div>
       </div>
       <div id="map"></div>
     </section>
